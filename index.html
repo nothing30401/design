@@ -11,6 +11,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script>
+    async function sendMessage() {
+        var userInput = document.getElementById("userInput").value;
+        var messageDisplay = document.getElementById("messageDisplay");
+
+        try {
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            messageDisplay.innerHTML = "Response: " + data.reply;
+        } catch (error) {
+            messageDisplay.innerHTML = "Error: " + error;
+        }
+    }
+</script>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
